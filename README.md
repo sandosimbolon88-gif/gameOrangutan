@@ -25,9 +25,9 @@ Beranda → Misi pengasuh → [Cara main → Pelajaran → Rapor] × 5 → Hari 
 | --- | --- | --- | --- | --- |
 | 1 | **Makanan Bakti** | Nursery | Makanan lewat di batang kayu. Ketuk makanan hutan, lengkapi empat menu sehat (buah, daun & bunga, kulit & umbut, rayap & madu). Makanan manusia (biskuit, permen, soda, mi instan, keripik) = salah. | Orang utan bukan hewan peliharaan; makanannya beragam. |
 | 2 | **Pilih Dahan Kuat** | Sekolah hutan | Naik delapan tingkat. Ketuk dahan kuat (cokelat, berlumut, berdaun). Dahan lapuk (pucat, retak, berjamur) patah. Petunjuk makin halus di tingkat atas. | Orang utan menguji dahan sebelum berpindah. |
-| 3 | **Jelajah Kanopi** | Sekolah hutan | Cari empat makanan tersembunyi di dedaunan. Lubang rayap dan air di batang membuka pilihan alat (ranting / daun / batu). Saat hujan, cari daun lebar sebagai payung. | Orang utan pandai memakai alat. |
+| 3 | **Jelajah Kanopi** | Sekolah hutan | Cari empat makanan tersembunyi di dedaunan. Lubang rayap membuka empat pilihan ranting (panjang & tipis ✓, pendek, dahan tebal, masih berdaun); lubang air membuka pilihan daun / ranting / batu. Urutan pilihan diacak. Saat hujan, cari daun lebar sebagai payung. | Orang utan pandai memakai alat. |
 | 4 | **Sarang Sebelum Gelap** | Sekolah hutan | Pilih tempat tidur (semak rendah ✗, pohon mati ✗, percabangan pohon hidup ✓), anyam enam dahan yang bersinar, lalu alasi lima helai daun. Langit makin gelap mengikuti waktu. | Sarang baru setiap sore, tinggi dan kuat. |
-| 5 | **Amati, Jangan Bantu** | Pulau pra-pelepasliaran | Bakti bergerak sendiri. Ketuk Bakti saat ia memanjat, makan, memakai alat, membuat sarang, atau menjauhi perahu petugas. Dua kali muncul godaan *Beri pisang* dan *Elus Bakti*: jangan ditekan. | Bakti harus mandiri dan tetap liar. |
+| 5 | **Amati, Jangan Bantu** | Pulau pra-pelepasliaran | Bakti bergerak sendiri. Saat ia beraksi (lingkaran kuning di sekeliling Bakti), ketuk perilaku yang sesuai di buku catatan: memanjat, makan, memakai alat, membuat sarang, atau menjauhi perahu petugas. Dua kali muncul godaan *Beri pisang* dan *Elus Bakti*: jangan ditekan. | Bakti harus mandiri dan tetap liar. |
 | — | **Hari pelepasliaran** | Pelepasliaran | Animasi kandang angkut terbuka, Bakti memanjat, menebar biji, bibit tumbuh. Bisa dilewati. | Orang utan adalah petani hutan. |
 
 Bakti tumbuh sedikit lebih besar di setiap pelajaran. Semua lima pelajaran selalu dilalui; bintang rapor menunjukkan seberapa baik Bakti siap.
@@ -41,7 +41,7 @@ Bakti tumbuh sedikit lebih besar di setiap pelajaran. Semua lima pelajaran selal
 | Menahan godaan | +15 |
 | Makanan untuk menu yang sudah penuh | +2 |
 | Aksi salah (makanan manusia, dahan lapuk, alat salah, tempat sarang salah) | −5 |
-| Mencatat saat Bakti sedang diam | −3 |
+| Memilih perilaku yang salah, atau mencatat saat Bakti sedang santai | −3 |
 | Salah urutan menganyam | −2 |
 | Menekan godaan | −10 |
 | Bonus waktu saat pelajaran selesai sebelum waktu habis | +2 per detik tersisa |

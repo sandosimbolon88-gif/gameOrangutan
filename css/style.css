@@ -143,11 +143,12 @@ button:focus-visible { outline: 3px solid #72c9f6; outline-offset: 5px; }
 .report-fact p { margin: 0; font-size: calc(var(--u) * 1.2); line-height: 1.45; }
 
 /* ---------- pilih alat ---------- */
-.tool-panel { width: 52%; text-align: center; padding: calc(var(--u) * 1.6) calc(var(--u) * 2.2); }
+.tool-panel { width: 66%; text-align: center; padding: calc(var(--u) * 1.6) calc(var(--u) * 2.2); }
 .tool-panel h3 { font-size: calc(var(--u) * 1.6); line-height: 1.3; }
 .tool-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(var(--u) * 1); }
 .tool-options .btn { display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * .3); background: #fff; border: 2px solid #e2dfcb; padding: calc(var(--u) * .8); }
 .tool-options .btn img { width: calc(var(--u) * 7); height: calc(var(--u) * 7); object-fit: contain; }
+.tool-options .btn span { font-size: calc(var(--u) * 1.1); line-height: 1.2; }
 .tool-options .btn.wrong { border-color: #d0442f; background: #fbe6e0; }
 .tool-options .btn.right { border-color: #2f9a55; background: #e2f4e2; }
 .tool-msg { min-height: calc(var(--u) * 2.6); margin: calc(var(--u) * .9) 0 0; font-size: calc(var(--u) * 1.15); font-weight: 700; color: #a3331d; line-height: 1.35; }

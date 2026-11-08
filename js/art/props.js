@@ -231,6 +231,37 @@
       ctx.beginPath(); ctx.moveTo(-36, 26); ctx.lineTo(34, -24); ctx.moveTo(4, 2); ctx.lineTo(10, -22); ctx.stroke();
       A.drawLeaf(ctx, 10, -22, 18, -1.2, '#5aa845', '#2e5e25');
     },
+    rantingPanjang(ctx) {
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = OUT; ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(-42, 34); ctx.lineTo(42, -34); ctx.stroke();
+      ctx.strokeStyle = '#b08350'; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(-42, 34); ctx.lineTo(42, -34); ctx.stroke();
+      ctx.strokeStyle = '#7a5530'; ctx.lineWidth = 1.5;
+      for (let k = -1; k <= 1; k++) { ctx.beginPath(); ctx.moveTo(40, -33); ctx.lineTo(47 + k, -38 + k * 3); ctx.stroke(); }
+      ctx.fillStyle = '#e0c08a'; ctx.beginPath(); ctx.arc(-20, 16, 2, 0, S.TAU); ctx.arc(8, -6, 2, 0, S.TAU); ctx.fill();
+    },
+    rantingPendek(ctx) {
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = OUT; ctx.lineWidth = 9; ctx.beginPath(); ctx.moveTo(-14, 12); ctx.lineTo(14, -12); ctx.stroke();
+      ctx.strokeStyle = '#8a6239'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(-14, 12); ctx.lineTo(14, -12); ctx.stroke();
+    },
+    rantingTebal(ctx) {
+      ctx.save(); ctx.rotate(-0.55);
+      ctx.beginPath(); ctx.moveTo(-40, -15); ctx.lineTo(38, -12); ctx.lineTo(40, 12); ctx.lineTo(-40, 15); ctx.closePath();
+      ctx.fillStyle = '#6b4a2f'; ctx.fill(); ctx.strokeStyle = OUT; ctx.lineWidth = 2.6; ctx.stroke();
+      ctx.strokeStyle = '#3f2716'; ctx.lineWidth = 1.6;
+      ctx.beginPath(); for (let x = -30; x < 34; x += 12) { ctx.moveTo(x, -9); ctx.lineTo(x + 8, -6); ctx.moveTo(x + 4, 5); ctx.lineTo(x + 12, 7); } ctx.stroke();
+      ctx.beginPath(); ctx.ellipse(39, 0, 5, 12, 0, 0, S.TAU); ctx.fillStyle = '#c99a63'; ctx.fill(); ctx.strokeStyle = OUT; ctx.lineWidth = 2; ctx.stroke();
+      ctx.restore();
+    },
+    rantingDaun(ctx) {
+      ctx.lineCap = 'round';
+      const twigs = [[-10, 8, -26, -12], [6, -4, -6, -30], [18, -14, 40, -20], [-24, 20, -40, 6]];
+      ctx.strokeStyle = OUT; ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(-40, 34); ctx.lineTo(36, -30); ctx.stroke();
+      for (const [a, b, c, d] of twigs) { ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(a, b); ctx.lineTo(c, d); ctx.stroke(); }
+      ctx.strokeStyle = '#8a6239'; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(-40, 34); ctx.lineTo(36, -30); ctx.stroke();
+      for (const [a, b, c, d] of twigs) { ctx.lineWidth = 2.2; ctx.beginPath(); ctx.moveTo(a, b); ctx.lineTo(c, d); ctx.stroke(); }
+      for (const [c, d, ang] of [[-26, -12, -2.2], [-6, -30, -1.7], [40, -20, -0.4], [-40, 6, -2.8], [36, -30, -0.9], [-30, -16, -1.2]]) A.drawLeaf(ctx, c, d, 20, ang, '#5aa845', '#2e5e25', 0.45);
+    },
     daunLebar(ctx) { A.drawBigLeaf(ctx, -40, 18, 0.78, -0.45, false); },
     batu(ctx) {
       ctx.beginPath(); ctx.moveTo(-34, 18); ctx.quadraticCurveTo(-36, -14, -8, -22); ctx.quadraticCurveTo(26, -28, 34, 0); ctx.quadraticCurveTo(38, 22, 10, 24); ctx.closePath();

@@ -113,7 +113,7 @@ window.SHB_CONTENT = {
       objective: 'Sarang {n}/{m}', done: 'Selamat tidur, Bakti!' },
     { id: 'island', stage: 'Ujian Akhir · Pulau Pra-Pelepasliaran', title: 'Amati, Jangan Bantu', short: 'Ujian pulau',
       how: [
-        { icon: 'notebook', ok: true, text: 'Ketuk Bakti saat ia menunjukkan perilaku di buku catatan.' },
+        { icon: 'notebook', ok: true, text: 'Amati Bakti. Saat ia beraksi, ketuk perilakunya di buku catatan.' },
         { icon: 'pisang', ok: false, text: 'Tahan diri: jangan beri makan dan jangan sentuh Bakti.' }
       ],
       objective: 'Catatan {n}/{m}', done: 'Bakti lulus ujian!' }
@@ -158,21 +158,28 @@ window.SHB_CONTENT = {
     durian: 'Durian hutan',
     daun: 'Daun muda'
   },
-  tools: { ranting: 'Ranting', daunLebar: 'Daun lebar', batu: 'Batu' },
+  /* Pilihan alat diacak urutannya setiap kali muncul. ok: true = jawaban benar. */
   toolTasks: {
     rayap: {
       label: 'Sarang rayap',
-      prompt: 'Rayap bersembunyi di lubang batang. Bakti sebaiknya pakai apa?',
-      answer: 'ranting',
-      right: 'Tepat! Orang utan memasukkan ranting ke lubang untuk mengambil rayap.',
-      wrong: { daunLebar: 'Daun terlalu lebar untuk masuk ke lubang kecil.', batu: 'Batu tidak bisa masuk ke lubang. Coba alat yang panjang dan tipis.' }
+      prompt: 'Rayap bersembunyi di lubang kecil di batang. Ranting mana yang paling pas untuk Bakti?',
+      options: [
+        { id: 'rantingPanjang', label: 'Panjang & tipis', ok: true },
+        { id: 'rantingTebal', label: 'Dahan tebal', text: 'Terlalu tebal, tidak muat masuk ke lubang kecil.' },
+        { id: 'rantingPendek', label: 'Ranting pendek', text: 'Terlalu pendek, tidak sampai ke dalam lubang.' },
+        { id: 'rantingDaun', label: 'Masih berdaun', text: 'Cabang dan daunnya menghalangi. Orang utan biasanya mengupasnya dulu.' }
+      ],
+      right: 'Tepat! Orang utan memilih ranting yang panjang dan tipis, lalu memasukkannya ke lubang untuk mengambil rayap.'
     },
     air: {
       label: 'Air di lubang pohon',
       prompt: 'Bakti haus. Ada air di lubang pohon. Bakti sebaiknya pakai apa?',
-      answer: 'daunLebar',
-      right: 'Pintar! Orang utan meremas daun menjadi spons untuk minum air dari lubang pohon.',
-      wrong: { ranting: 'Ranting tidak bisa menyerap air.', batu: 'Batu tidak bisa menyerap air. Coba benda lembut yang bisa diremas.' }
+      options: [
+        { id: 'daunLebar', label: 'Daun lebar', ok: true },
+        { id: 'rantingPanjang', label: 'Ranting', text: 'Ranting tidak bisa menyerap air.' },
+        { id: 'batu', label: 'Batu', text: 'Batu tidak bisa menyerap air. Coba benda lembut yang bisa diremas.' }
+      ],
+      right: 'Pintar! Orang utan meremas daun menjadi spons untuk minum air dari lubang pohon.'
     }
   },
   toolKicker: 'Pilih alat',
@@ -198,7 +205,11 @@ window.SHB_CONTENT = {
     menjauh: { name: 'Menjauhi manusia', text: 'Orang utan yang siap dilepas menjaga jarak dari manusia.' }
   },
   recorded: 'Tercatat',
-  idleTap: { title: 'Belum ada perilaku baru', text: 'Amati dulu. Catat saat Bakti menunjukkan perilaku di buku catatan.' },
+  idleTap: { title: 'Belum ada perilaku baru', text: 'Bakti sedang santai. Tunggu sampai ia beraksi, lalu pilih perilakunya di buku catatan.' },
+  wrongPick: { title: 'Bukan itu', text: 'Amati lagi apa yang sedang Bakti lakukan, lalu pilih yang sesuai di buku catatan.' },
+  waitAct: 'Tunggu Bakti beraksi',
+  pickHint: 'Pilih perilakunya di buku catatan',
+  actCue: 'Bakti sedang beraksi! Apa yang ia lakukan?',
   already: 'Sudah tercatat',
   temptPrompt: 'Bakti mendekat ke tepi pulau…',
   temptations: [
@@ -231,7 +242,7 @@ window.SHB_CONTENT = {
     { id: 'makanan', title: 'Menu Hutan', text: 'Makanan utama orang utan adalah buah, misalnya buah ara. Mereka juga makan daun muda, bunga, kulit kayu, rayap, dan madu.' },
     { id: 'lengan', title: 'Pemanjat Ulung', text: 'Lengan orang utan panjang dan kuat. Rentang lengan orang utan dewasa bisa jauh melebihi tinggi badannya.' },
     { id: 'ekor', title: 'Tanpa Ekor', text: 'Orang utan termasuk kera besar, jadi tidak berekor. Tangan dan kakinya sama-sama bisa menggenggam dahan.' },
-    { id: 'alat', title: 'Pandai Memakai Alat', text: 'Orang utan memakai ranting untuk mengambil serangga dan madu, serta daun lebar sebagai payung saat hujan.' },
+    { id: 'alat', title: 'Pandai Memakai Alat', text: 'Orang utan memilih ranting yang panjang dan tipis untuk mengambil serangga dan madu, serta memakai daun lebar sebagai payung saat hujan.' },
     { id: 'sarang', title: 'Sarang Baru Setiap Hari', text: 'Setiap sore orang utan membuat sarang baru di pohon dari dahan yang dibengkokkan dan dianyam, lalu dialasi daun.' },
     { id: 'petani', title: 'Petani Hutan', text: 'Orang utan menebar biji dari buah yang dimakannya. Biji itu tumbuh menjadi pohon baru, sehingga hutan tetap lestari.' },
     { id: 'pulau', title: 'Pulau Latihan', text: 'Sebelum dilepas, orang utan berlatih di pulau yang dikelilingi air. Orang utan tidak bisa berenang, jadi mereka tetap di pulau.' },

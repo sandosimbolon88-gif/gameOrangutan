@@ -143,14 +143,15 @@ try {
   await page.waitForSelector('#overlay-tool.active');
   check(await ev(() => SHB.debug.game.paused), 'waktu berhenti saat memilih alat');
   await page.screenshot({ path: path.join(OUT, '30-pilih-alat.png') });
-  await page.locator('#tool-options .btn').nth(2).click();
-  check((await page.textContent('#tool-msg')).length > 5, 'penjelasan alat yang salah');
-  await page.locator('#tool-options .btn').nth(0).click();
+  check(await page.locator('#tool-options .btn').count() === 4, 'empat pilihan ranting');
+  await page.locator('#tool-options .btn[data-tool="rantingPendek"]').click();
+  check((await page.textContent('#tool-msg')).includes('pendek'), 'penjelasan ranting yang salah');
+  await page.locator('#tool-options .btn[data-tool="rantingPanjang"]').click();
   await page.waitForSelector('#overlay-tool.active', { state: 'detached' }).catch(() => {});
   await page.waitForFunction(() => !SHB.debug.game.paused);
   await clickStage(1384, 470);
   await page.waitForSelector('#overlay-tool.active');
-  await page.locator('#tool-options .btn').nth(1).click();
+  await page.locator('#tool-options .btn[data-tool="daunLebar"]').click();
   await page.waitForFunction(() => !SHB.debug.game.paused);
   await page.waitForFunction(() => SHB.debug.game.lesson.rain.started, null, { timeout: 12000 });
   await wait(900);
@@ -186,29 +187,45 @@ try {
   /* ---------- 5 · ujian pulau ---------- */
   console.log('Pelajaran 5 · Ujian pulau');
   await startLesson('island');
-  let pressedTempt = false, idleTapped = false, shotTempt = false, shotAct = false;
+  let pressedTempt = false, idlePicked = false, wrongPicked = false, shotTempt = false, shotAct = false;
+  const chipOf = (b) => ev((b) => { const r = SHB.debug.game.lesson.notebookRects().find((r) => r.b === b); return { x: r.x + r.w / 2, y: r.y + r.h / 2 }; }, b);
   for (let n = 0; n < 400; n++) {
     const st = await ev(() => {
       const g = SHB.debug.game, L = g.lesson;
       if (!L || g.ending) return { end: true };
-      const s = L.seg;
-      return { type: s.type, b: s.b, rec: s.b ? L.recorded.has(s.b) : false, x: L.pos.x, y: L.pos.y - 48 * L.scale, t: s.t, tempt: !document.getElementById('tempt').classList.contains('hidden'), resolved: L.resolved() };
+      const s = L.seg, open = ['memanjat', 'makan', 'alat', 'sarang', 'menjauh'].filter((b) => !L.recorded.has(b));
+      return { type: s.type, b: s.b, rec: s.b ? L.recorded.has(s.b) : false, t: s.t, open, tempt: !document.getElementById('tempt').classList.contains('hidden'), resolved: L.resolved() };
     });
     if (st.end) break;
     if (st.tempt && !shotTempt) { shotTempt = true; await page.screenshot({ path: path.join(OUT, '50-godaan.png') }); }
     if (st.tempt && st.resolved === 1 && !pressedTempt) { pressedTempt = true; await page.click('#tempt-btn', { force: true }); continue; }
-    if (st.type === 'idle' && !idleTapped && st.t > 0.2) { idleTapped = true; await clickStage(st.x, st.y); continue; }
+    if (st.type === 'idle' && !idlePicked && st.t > 0.2 && st.open.length) {
+      idlePicked = true;
+      const m0 = await ev(() => SHB.debug.game.mistakes);
+      const c = await chipOf(st.open[0]); await clickStage(c.x, c.y);
+      check((await ev(() => SHB.debug.game.mistakes)) === m0 + 1, 'memilih catatan saat Bakti santai = salah');
+      continue;
+    }
     if (st.type === 'act' && !st.rec && st.t > 0.4) {
-      await clickStage(st.x, st.y);
-      if (!shotAct) { shotAct = true; await wait(200); await page.screenshot({ path: path.join(OUT, '51-pulau-catat.png') }); }
+      const wrong = st.open.find((b) => b !== st.b);
+      if (!wrongPicked && wrong) {
+        wrongPicked = true;
+        const c = await chipOf(wrong); await clickStage(c.x, c.y);
+        check(!(await ev((b) => SHB.debug.game.lesson.recorded.has(b), wrong)), 'perilaku yang salah tidak tercatat');
+        continue;
+      }
+      if (!shotAct) { shotAct = true; await page.screenshot({ path: path.join(OUT, '51-pulau-beraksi.png') }); }
+      const c = await chipOf(st.b); await clickStage(c.x, c.y);
+      check(await ev((b) => SHB.debug.game.lesson.recorded.has(b), st.b), `buku catatan: ${st.b} tercatat`);
+      await wait(250);
       continue;
     }
     await wait(150);
   }
   const isl = await ev(() => { const L = SHB.debug.game.results.slice(-1)[0]; return L; });
-  check(pressedTempt && idleTapped, 'godaan ditekan dan ketukan saat diam diuji');
+  check(pressedTempt && idlePicked && wrongPicked, 'godaan, catatan saat santai, dan catatan salah diuji');
   const r5 = await finishLesson('island', '52-rapor-pulau.png');
-  check(r5.mistakes === 2 && r5.stars === 2, 'pulau: dua kesalahan = dua bintang');
+  check(r5.mistakes === 3 && r5.stars === 2, 'pulau: tiga kesalahan = dua bintang');
 
   /* ---------- pelepasliaran & hasil ---------- */
   console.log('Pelepasliaran & hasil');

@@ -125,9 +125,10 @@
       const task = C.toolTasks[tg.id];
       this.g.setPaused(true);
       let solved = false;
-      UI.showTool(task, this.g.icons, (k, btn) => {
+      UI.showTool(task, this.g.icons, (opt, btn) => {
         if (solved || this.destroyed) return;
-        if (k === task.answer) {
+        const k = opt.id;
+        if (opt.ok) {
           solved = true;
           UI.toolFeedback(btn, true, task.right);
           this.found.add(tg.id); this.lastFind = this.t;
@@ -138,7 +139,7 @@
             this.anims.push({ type: 'tool', tool: k, x: tg.x, y: tg.y, side: tg.x < 800 ? 1 : -1, p: 0, dur: 1.2, after: () => this.feed(tg.food, tg.x, tg.y) });
           }, 1500);
         } else {
-          UI.toolFeedback(btn, false, task.wrong[k]);
+          UI.toolFeedback(btn, false, opt.text);
           this.g.bad(CFG.badPenalty, tg.x, tg.y);
         }
       });
@@ -203,7 +204,7 @@
         const poke = Math.sin(k * Math.PI * 4) * 16;
         ctx.save(); ctx.translate(a.x + a.side * (60 - poke), a.y + 10);
         ctx.scale(a.side, 1);
-        if (a.tool === 'ranting') { ctx.rotate(-0.15); A.drawFood(ctx, 'ranting', -10, 0, 40, now); }
+        if (a.tool !== 'daunLebar') { ctx.rotate(-0.15); A.drawFood(ctx, a.tool, -10, 0, 40, now); }
         else { ctx.fillStyle = '#5f9a3c'; ctx.strokeStyle = '#26431b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(-18, 0, 26, 16, 0.3, 0, S.TAU); ctx.fill(); ctx.stroke(); }
         ctx.restore();
         A.sparkle(ctx, a.x, a.y - 40, 1, now);

@@ -118,11 +118,14 @@
     const msg = $('tool-msg'); msg.textContent = ''; msg.className = 'tool-msg';
     const box = $('tool-options');
     box.innerHTML = '';
-    for (const k of ['ranting', 'daunLebar', 'batu']) {
+    const opts = S.rng(S.randomSeed()).shuffle(task.options.slice());
+    box.style.gridTemplateColumns = 'repeat(' + opts.length + ', 1fr)';
+    for (const o of opts) {
       const b = document.createElement('button');
       b.className = 'btn';
-      b.innerHTML = '<img alt="" src="' + icons[k] + '"><span>' + esc(C.tools[k]) + '</span>';
-      b.addEventListener('click', (e) => { e.stopPropagation(); onPick(k, b); });
+      b.dataset.tool = o.id;
+      b.innerHTML = '<img alt="" src="' + icons[o.id] + '"><span>' + esc(o.label) + '</span>';
+      b.addEventListener('click', (e) => { e.stopPropagation(); onPick(o, b); });
       box.appendChild(b);
     }
     UI.overlay('overlay-tool', true);

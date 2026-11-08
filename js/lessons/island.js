@@ -106,24 +106,40 @@
       }
     }
 
+    /* Kotak-kotak buku catatan (bisa diketuk). */
+    notebookRects() {
+      const x = 140, y = 800, h = 92, step = 196, cx0 = x + 168;
+      return BEHAVIORS.map((b, i) => ({ b, x: cx0 + i * step - 6, y: y + h / 2 - 28, w: step - 10, h: 56 }));
+    }
+
     pointer(x, y, tol) {
+      const chip = this.notebookRects().find((r) => x >= r.x - tol && x <= r.x + r.w + tol && y >= r.y - tol && y <= r.y + r.h + tol);
+      if (chip) return this.pick(chip.b, chip.x + chip.w / 2, chip.y);
+      const s = this.scale, onBakti = S.dist(x, y, this.pos.x, this.pos.y - 48 * s) < 100 * s + tol;
+      if (!onBakti) return false;
+      // mengetuk Bakti tidak mencatat apa pun: arahkan ke buku catatan
+      if (this.seg.type === 'act' && !this.recorded.has(this.seg.b)) this.g.float(x, y, C.pickHint, '#cfe8ff');
+      return true;
+    }
+
+    /* Pemain memilih perilaku di buku catatan. */
+    pick(b, x, y) {
       const sg = this.seg, s = this.scale;
-      const hit = S.dist(x, y, this.pos.x, this.pos.y - 48 * s) < 100 * s + tol;
-      if (!hit) return false;
-      if (sg.type === 'act') {
-        const b = C.behaviors[sg.b];
-        if (this.recorded.has(sg.b)) { this.g.float(x, y, C.already, '#cfe8ff'); return true; }
-        this.recorded.add(sg.b); sg.recorded = true;
+      if (sg.type === 'tempt' || this.finished) return true;
+      if (this.recorded.has(b)) { this.g.float(x, y - 10, C.already, '#cfe8ff'); return true; }
+      if (sg.type === 'act' && sg.b === b) {
+        const info = C.behaviors[b];
+        this.recorded.add(b); sg.recorded = true;
         sg.dur = Math.min(sg.dur, sg.t + 1.1); // setelah tercatat, Bakti lanjut ke kegiatan berikutnya
         S.Audio.pop();
-        this.g.good(CFG.goodPoints, x, y, C.recorded + ': ' + b.name);
-        UI.bubble(x, y - 40, b.name, b.text, true);
+        const bx = this.pos.x, by = this.pos.y - 110 * s;
+        this.g.good(CFG.goodPoints, bx, by, C.recorded);
+        UI.bubble(bx, by - 30, info.name, info.text, true);
         return true;
       }
-      if (sg.type === 'idle' && !this.finished) {
-        this.g.bad(CFG.idlePenalty, x, y, C.idleTap.title, C.idleTap.text);
-        return true;
-      }
+      if (sg.type === 'act') { this.g.bad(CFG.idlePenalty, x, y - 20, C.wrongPick.title, C.wrongPick.text); return true; }
+      if (sg.type === 'move') { this.g.float(x, y - 10, C.waitAct, '#cfe8ff'); return true; }
+      this.g.bad(CFG.idlePenalty, x, y - 20, C.idleTap.title, C.idleTap.text);
       return true;
     }
 
@@ -136,6 +152,8 @@
       for (let i = 0; i < 4; i++) A.drawFood(ctx, 'ara', 1230 + i * 30, 230 + (i % 2) * 24, 16, now);
       A.mossLog(ctx, 736, 900, 664, 46);
       if (this.nestBuilt > 0) A.drawNest(ctx, SP.nest.x, SP.nest.y + 8, 0.66, Math.min(1, this.nestBuilt * 1.2), Math.max(0, this.nestBuilt * 1.6 - 0.6), now);
+      const acting = this.seg.type === 'act' && !this.recorded.has(this.seg.b);
+      if (acting) A.glow(ctx, this.pos.x, this.pos.y - 46 * this.scale, 92 * this.scale, now, '#fff4b8');
       this.renderBakti(ctx, now);
       if (this.fly) {
         const e = S.ease.inOut(this.fly.p);
@@ -174,22 +192,31 @@
     }
 
     renderNotebook(ctx, now) {
-      const x = 140, y = 806, w = 1320, h = 80, step = 196, cx0 = x + 168;
+      const x = 140, y = 800, w = 1320, h = 92;
+      const acting = this.seg.type === 'act' && !this.recorded.has(this.seg.b);
+      if (acting) {
+        const p = 0.82 + 0.18 * Math.sin(now * 5);
+        ctx.save(); ctx.globalAlpha = p;
+        S.roundRect(ctx, 520, y - 46, 560, 38, 19); ctx.fillStyle = 'rgba(255,226,122,.95)'; ctx.fill();
+        A.text(ctx, C.actCue + ' ↓', 800, y - 27, 19, '#173f38', 'center', 900);
+        ctx.restore();
+      }
       A.panel(ctx, x, y, w, h);
-      A.text(ctx, C.notebookTitle.toUpperCase(), x + 22, y + 28, 15, '#ffda7e', 'left', 900);
-      A.text(ctx, '✎', x + 22, y + 56, 22, '#ffda7e', 'left', 900);
-      BEHAVIORS.forEach((b, i) => {
-        const cx = cx0 + i * step, cy = y + h / 2, on = this.recorded.has(b);
-        S.roundRect(ctx, cx - 6, cy - 22, step - 10, 44, 10);
-        ctx.fillStyle = on ? 'rgba(126,217,87,.25)' : 'rgba(255,255,255,.07)'; ctx.fill();
-        ctx.strokeStyle = on ? '#9fe07a' : 'rgba(255,255,255,.4)'; ctx.lineWidth = 2; ctx.strokeRect(cx + 2, cy - 10, 20, 20);
-        if (on) { ctx.strokeStyle = '#bff0a0'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(cx + 5, cy); ctx.lineTo(cx + 11, cy + 7); ctx.lineTo(cx + 21, cy - 8); ctx.stroke(); }
-        A.text(ctx, C.behaviors[b].name, cx + 30, cy + 1, 15, on ? '#e6ffd6' : '#f3f1e2', 'left', 800);
-      });
-      const tx = cx0 + 5 * step + 4;
-      A.text(ctx, C.temptPassTitle, tx, y + 26, 14, '#ffda7e', 'left', 900);
+      A.text(ctx, C.notebookTitle.toUpperCase(), x + 22, y + 32, 15, '#ffda7e', 'left', 900);
+      A.text(ctx, '✎', x + 22, y + 62, 22, '#ffda7e', 'left', 900);
+      for (const r of this.notebookRects()) {
+        const on = this.recorded.has(r.b), cy = r.y + r.h / 2, cx = r.x + 6;
+        S.roundRect(ctx, r.x, r.y, r.w, r.h, 12);
+        ctx.fillStyle = on ? 'rgba(126,217,87,.28)' : acting ? 'rgba(255,255,255,.16)' : 'rgba(255,255,255,.08)'; ctx.fill();
+        ctx.strokeStyle = on ? '#9fe07a' : acting ? 'rgba(255,226,122,.8)' : 'rgba(255,255,255,.28)'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.strokeStyle = on ? '#9fe07a' : 'rgba(255,255,255,.55)'; ctx.lineWidth = 2; ctx.strokeRect(cx + 4, cy - 11, 22, 22);
+        if (on) { ctx.strokeStyle = '#bff0a0'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(cx + 7, cy); ctx.lineTo(cx + 13, cy + 7); ctx.lineTo(cx + 24, cy - 9); ctx.stroke(); }
+        A.text(ctx, C.behaviors[r.b].name, cx + 34, cy + 1, 15, on ? '#e6ffd6' : '#f3f1e2', 'left', 800);
+      }
+      const last = this.notebookRects()[BEHAVIORS.length - 1], tx = last.x + last.w + 14;
+      A.text(ctx, C.temptPassTitle, tx, y + 30, 14, '#ffda7e', 'left', 900);
       this.tempts.forEach((t, i) => {
-        const cx = tx + 14 + i * 32, cy = y + 56;
+        const cx = tx + 14 + i * 32, cy = y + 60;
         ctx.beginPath(); ctx.arc(cx, cy, 11, 0, S.TAU);
         ctx.fillStyle = t.state === 'passed' ? '#7ed957' : t.state === 'failed' ? '#e0614d' : 'rgba(255,255,255,.15)'; ctx.fill();
         ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.lineWidth = 1.5; ctx.stroke();

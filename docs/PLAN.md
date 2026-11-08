@@ -52,9 +52,9 @@ Detail angka ada di README dan `js/config.js`.
 | --- | --- | --- | --- |
 | Makanan Bakti | Ketuk makanan yang lewat | Empat menu sehat masing-masing terisi dua | Mengetuk makanan manusia |
 | Pilih Dahan Kuat | Ketuk satu dari dua dahan di tingkat berikutnya | Delapan tingkat | Dahan lapuk (patah) |
-| Jelajah Kanopi | Cari & ketuk; pilih alat; cari payung saat hujan | Enam temuan + payung | Alat salah; hujan terlewat (tanpa potongan poin) |
+| Jelajah Kanopi | Cari & ketuk; pilih ranting yang pas (empat pilihan) atau alat untuk minum; cari payung saat hujan | Enam temuan + payung | Alat salah; hujan terlewat (tanpa potongan poin) |
 | Sarang Sebelum Gelap | Pilih tempat → anyam dahan bersinar → daun alas | Bakti tidur | Tempat salah; salah urutan |
-| Amati, Jangan Bantu | Ketuk Bakti saat beraksi; tahan dua godaan | Lima perilaku tercatat + dua godaan selesai | Mencatat saat diam; menekan godaan |
+| Amati, Jangan Bantu | Saat Bakti beraksi, pilih perilakunya di buku catatan; tahan dua godaan | Lima perilaku tercatat + dua godaan selesai | Perilaku salah; mencatat saat santai; menekan godaan |
 
 ## 4. Perlu keputusan tim
 
