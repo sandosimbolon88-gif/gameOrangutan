@@ -1,0 +1,12 @@
+{
+  "name": "Sekolah Hutan Bakti",
+  "short_name": "Sekolah Hutan",
+  "description": "Game edukasi tentang rehabilitasi orang utan bersama Bakti BCA.",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0d2a24",
+  "theme_color": "#0d2a24",
+  "lang": "id",
+  "icons": [{ "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

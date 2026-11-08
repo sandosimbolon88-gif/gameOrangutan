@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><title>Galeri Seni Sekolah Hutan Bakti</title>
+<style>body{margin:0;background:#20302a;color:#fff;font:14px system-ui}canvas{display:block}</style></head>
+<body>
+<canvas id="c" width="1600" height="2400"></canvas>
+<script src="../js/util.js"></script>
+<script src="../js/art/orangutan.js"></script>
+<script src="../js/art/props.js"></script>
+<script src="../js/art/scenery.js"></script>
+<script>
+const S = window.SHB, A = S.Art, ctx = document.getElementById('c').getContext('2d');
+ctx.fillStyle = '#e9efe0'; ctx.fillRect(0, 0, 1600, 2400);
+const poses = Object.keys(A.OU_POSES);
+poses.forEach((p, i) => {
+  const x = 110 + (i % 8) * 190, y = 230 + Math.floor(i / 8) * 270;
+  A.drawOrangutan(ctx, x, y, 1.15, p, { t: 0.5, hold: p === 'eat' ? 'ara' : p === 'tool' ? 'stick' : p === 'umbrella' ? 'umbrella' : null });
+  ctx.fillStyle = '#123'; ctx.font = '700 16px system-ui'; ctx.textAlign = 'center'; ctx.fillText(p, x, y + 95);
+});
+const foods = A.FOOD_KINDS;
+foods.forEach((k, i) => {
+  const x = 80 + (i % 12) * 125, y = 880 + Math.floor(i / 12) * 140;
+  A.drawFood(ctx, k, x, y, 46);
+  ctx.fillStyle = '#123'; ctx.font = '700 14px system-ui'; ctx.textAlign = 'center'; ctx.fillText(k, x, y + 62);
+});
+A.drawBranch(ctx, A.branchGeom(120, 1240, 300, 1, 20), { rotten: false, seed: 3 });
+A.drawBranch(ctx, A.branchGeom(560, 1240, 300, 1, 20), { rotten: true, seed: 4, dryLeaves: true });
+A.drawBranch(ctx, A.branchGeom(1000, 1240, 300, 1, 20), { rotten: false, seed: 5, leafy: 0.2 });
+A.drawBranch(ctx, A.branchGeom(1440, 1240, 300, -1, 20), { rotten: true, seed: 6, subtle: true });
+A.drawOrangutan(ctx, 200, 1420, 0.9, 'sleep', { t: 0 }); A.drawNest(ctx, 200, 1426, 0.8, 1, 1, 0);
+A.drawNest(ctx, 500, 1420, 1, 1, 1, 0);
+A.drawHollow(ctx, 760, 1420, 1.4, 'rayap', 1);
+A.drawHollow(ctx, 900, 1420, 1.4, 'air', 1);
+A.drawCage(ctx, 1150, 1500, 0.8, 0.3);
+A.drawBoat(ctx, 1420, 1480, 0.9, 0);
+A.drawSapling(ctx, 1560, 1500, 1, 0);
+const bg = [A.bgNursery, A.bgIsland, A.bgRelease, A.bgCanopyBack];
+bg.forEach((f, i) => { ctx.save(); ctx.translate((i % 2) * 800, 1600 + Math.floor(i / 2) * 400); ctx.scale(0.5, 0.444); f(ctx, 1600, 900); ctx.restore(); });
+A.drawOrangutan(ctx, 600, 1960, 0.7, 'hang', { t: 1 });
+</script>
+</body></html>
