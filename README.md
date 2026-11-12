@@ -1,4 +1,19 @@
-# Sekolah Hutan Bakti · V1
+# Sekolah Hutan Bakti — Game Orangutan
+
+## Pilih versi game
+
+| Versi | File | Keterangan |
+| --- | --- | --- |
+| **Versi 1 — Original** | [sekolah-hutan-bakti-v1-original.html](sekolah-hutan-bakti-v1-original.html) | Salinan persis game original, lengkap dalam satu file HTML. |
+| **Versi 2 — Revisi** | [sekolah-hutan-bakti-v2.html](sekolah-hutan-bakti-v2.html) | File lampiran revisi, disimpan persis seperti aslinya. |
+
+**Kedua versi disimpan terpisah.** Versi 2 tidak digabung atau menimpa versi original. File original di [dist/sekolah-hutan-bakti.html](dist/sekolah-hutan-bakti.html), `index.html`, dan seluruh file pendukung tetap berada di lokasi semula.
+
+Untuk bermain di laptop/PC, unduh file HTML versi yang diinginkan lalu buka di Chrome atau Edge.
+
+---
+
+## Panduan versi 1 — Original
 
 Game edukasi Bakti BCA tentang rehabilitasi orang utan. Pemain menjadi **pengasuh** Bakti, bayi orang utan yatim, dan membantunya melewati lima pelajaran sampai siap dilepasliarkan ke hutan. Formatnya mengikuti *Jejak Si Macan Tutul*: booth pameran, layar sentuh/mouse landscape, satu file HTML offline, papan skor lokal, dan panel panitia.
 
